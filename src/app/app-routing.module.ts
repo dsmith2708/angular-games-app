@@ -9,7 +9,9 @@ import { SnakeComponent } from './snake/snake.component';
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'minesweeper', component: MinesweeperComponent},
-  {path: 'snake', component: SnakeComponent}
+  {path: 'snake', component: SnakeComponent},
+  {path: '', redirectTo: '/home', pathMatch: 'full' },
+  {path: '**', component: HomeComponent}
 ];
 
 @NgModule({
