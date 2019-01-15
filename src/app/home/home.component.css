@@ -4,6 +4,7 @@
     align-items: center;
     height: 100%;
 }
+
 .flex-item {
     display: flex;
     margin: auto;
@@ -12,14 +13,22 @@
     text-align: center;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 .orange-background {
     background-color: orange;
 }
+.orange-background:hover {
+    background-color: rgb(251, 255, 0);
+}
 .blue-background {
     background-color: cyan;
 }
+.blue-background:hover {
+    background-color: rgb(210, 255, 255);
+}
+
 .game-text {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 4.5vw;
