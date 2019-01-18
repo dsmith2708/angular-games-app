@@ -58,4 +58,14 @@ export class PlayerSnake {
         this.playerInstance = new PlayerSnake();
         return this.playerInstance;
     }
+
+    /**
+     *set the snake direction
+     *
+     * @param {number} direction
+     * @memberof PlayerSnake
+     */
+    public setSnakeDir(direction: number) {
+        this.snakeDirection = direction;
+    }
 }

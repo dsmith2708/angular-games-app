@@ -17,11 +17,19 @@ export class SnakeGame {
      */
     canvasNativeEl: HTMLCanvasElement;
 
-
-
     constructor (canvasNativeEl: HTMLCanvasElement) {
         this.canvasNativeEl = canvasNativeEl;
         this.playerSnake = PlayerSnake.getPlayerSnake();
+    }
+
+    /**
+     * Pass new snake direction to PlayerSnake to set
+     *
+     * @param {number} direction
+     * @memberof SnakeGame
+     */
+    keyDownHandler(keyPressed: string) {
+
     }
 
 

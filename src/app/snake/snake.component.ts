@@ -7,6 +7,7 @@ import { SnakeGame } from './game/snake-game';
   styleUrls: ['./snake.component.css']
 })
 export class SnakeComponent implements OnInit {
+
   @ViewChild('snakeCanvas') canvasElRef: ElementRef;
   canvasNativeElement: HTMLCanvasElement;
 
@@ -16,6 +17,15 @@ export class SnakeComponent implements OnInit {
   onWindowResize() {
     this.canvasNativeElement.height = window.innerHeight;
     this.canvasNativeElement.width = window.innerWidth;
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  keyPressHandler(event: KeyboardEvent) {
+    // send arrrow keys and enter to game, ignore anything else
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight' ||
+    event.key === 'ArrowUp' || event.key === 'ArrowDown' || event.key === 'Enter') {
+      this.gameInstance.keyDownHandler(event.key);
+    }
   }
 
   constructor() {
