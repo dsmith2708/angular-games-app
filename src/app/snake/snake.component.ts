@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterContentInit, HostListener } from '@angular/core';
+import { SnakeGame } from './game/snake-game';
 
 @Component({
   selector: 'app-snake',
@@ -9,13 +10,17 @@ export class SnakeComponent implements OnInit {
   @ViewChild('snakeCanvas') canvasElRef: ElementRef;
   canvasNativeElement: HTMLCanvasElement;
 
+  gameInstance: SnakeGame;
+
   @HostListener('window:resize', ['$event'])
   onWindowResize() {
     this.canvasNativeElement.height = window.innerHeight;
     this.canvasNativeElement.width = window.innerWidth;
   }
 
-  constructor() { }
+  constructor() {
+    this.gameInstance = new SnakeGame(this.canvasNativeElement);
+  }
 
   ngOnInit() {
     this.canvasNativeElement = this.canvasElRef.nativeElement;
