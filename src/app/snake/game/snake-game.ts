@@ -1,20 +1,15 @@
 import {PlayerSnake} from './player-snake';
 
+export enum GameState { Menu, Playing, Paused, Ended }
+
 export class SnakeGame {
-    /**
-     * The instance of the player snake to use in the game
-     *
-     * @type {PlayerSnake}
-     * @memberof SnakeGame
-     */
+
+    gameState: GameState = GameState.Menu;
+
+    // PlayerSnake instance
     playerSnake: PlayerSnake;
 
-    /**
-     * The html canvas the game will be displayed on
-     *
-     * @type {HTMLCanvasElement}
-     * @memberof SnakeGame
-     */
+    // Canvas the game will display on
     canvasNativeEl: HTMLCanvasElement;
 
     constructor (canvasNativeEl: HTMLCanvasElement) {
@@ -22,15 +17,40 @@ export class SnakeGame {
         this.playerSnake = PlayerSnake.getPlayerSnake();
     }
 
-    /**
-     * Pass new snake direction to PlayerSnake to set
-     *
-     * @param {number} direction
-     * @memberof SnakeGame
-     */
+    // Handle user keypress, pass to PlayerSnake if neccessary
     keyDownHandler(keyPressed: string) {
+
+        // Handle keypresses based on game state
+        if (this.gameState === GameState.Menu) {
+
+        } else if (this.gameState === GameState.Playing) {
+
+        } else if (this.gameState === GameState.Paused) {
+            this.gameState = GameState.Playing;
+        } else if (this.gameState === GameState.Ended) {
+            this.resetGame();
+        }
+    }
+
+    private resetGame() {
 
     }
 
+    private render() {
+        switch (this.gameState) {
+            case GameState.Menu: {
+                break;
+            }
+            case GameState.Playing: {
+                break;
+            }
+            case GameState.Paused: {
+                break;
+            }
+            case GameState.Ended: {
+                break;
+            }
+        }
+    }
 
 }
