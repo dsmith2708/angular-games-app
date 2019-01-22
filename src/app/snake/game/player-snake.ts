@@ -1,12 +1,6 @@
 import { SnakeBlock } from './snake-block';
+import { Direction } from './helpers';
 
-// Enum for snake directions
-export enum Direction {
-    Up,
-    Down,
-    Left,
-    Right,
-}
 
 export class PlayerSnake {
 

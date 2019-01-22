@@ -1,6 +1,6 @@
-import {PlayerSnake} from './player-snake';
+import { PlayerSnake } from './player-snake';
+import { GameState } from './helpers';
 
-export enum GameState { Menu, Playing, Paused, Ended }
 
 export class SnakeGame {
 
@@ -37,6 +37,16 @@ export class SnakeGame {
     }
 
     private render() {
+
+        // Draw background
+        const canvasCtx = this.canvasNativeEl.getContext('2d');
+        const backgroundGradient = canvasCtx.createLinearGradient(0, 0, this.canvasNativeEl.width, this.canvasNativeEl.height);
+        backgroundGradient.addColorStop(0, 'rgb(0, 0, 0)');
+        backgroundGradient.addColorStop(1, 'rgb(255, 255, 255)');
+        canvasCtx.fillStyle = backgroundGradient;
+        canvasCtx.fillRect(0, 0, this.canvasNativeEl.width, this.canvasNativeEl.height);
+
+
         switch (this.gameState) {
             case GameState.Menu: {
                 break;
