@@ -28,11 +28,11 @@ export class SnakeComponent implements OnInit {
     }
   }
 
-  constructor() {
-    this.gameInstance = new SnakeGame(this.canvasNativeElement);
-  }
+  constructor() {}
 
   ngOnInit() {
+    this.canvasNativeElement = this.canvasElRef.nativeElement;
+    this.gameInstance = new SnakeGame(this.canvasNativeElement);
     this.canvasNativeElement = this.canvasElRef.nativeElement;
     this.canvasNativeElement.height = window.innerHeight;
     this.canvasNativeElement.width = window.innerWidth;

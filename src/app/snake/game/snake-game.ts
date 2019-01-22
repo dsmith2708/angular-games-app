@@ -1,7 +1,6 @@
 import { PlayerSnake } from './player-snake';
 import { GameState } from './helpers';
 
-
 export class SnakeGame {
 
     gameState: GameState = GameState.Menu;
@@ -9,12 +8,16 @@ export class SnakeGame {
     // PlayerSnake instance
     playerSnake: PlayerSnake;
 
-    // Canvas the game will display on
-    canvasNativeEl: HTMLCanvasElement;
+    // Render will run while this is true
+    runRender = true;
 
-    constructor (canvasNativeEl: HTMLCanvasElement) {
-        this.canvasNativeEl = canvasNativeEl;
+    constructor(public canvasNativeEl: HTMLCanvasElement) {
+        console.log('passed nativeEl', canvasNativeEl);
+        // this.canvasNativeEl = canvasNativeEl;
+        console.log('new canvasnativeEL', this.canvasNativeEl);
         this.playerSnake = PlayerSnake.getPlayerSnake();
+
+        this.startRender();
     }
 
     // Handle user keypress, pass to PlayerSnake if neccessary
@@ -36,29 +39,38 @@ export class SnakeGame {
 
     }
 
+    private startRender() {
+        console.log('ran startrender');
+        window.setInterval(this.render.bind(this), 16);
+    }
+
     private render() {
+        console.log('render running');
+        console.log(this.canvasNativeEl);
 
-        // Draw background
-        const canvasCtx = this.canvasNativeEl.getContext('2d');
-        const backgroundGradient = canvasCtx.createLinearGradient(0, 0, this.canvasNativeEl.width, this.canvasNativeEl.height);
-        backgroundGradient.addColorStop(0, 'rgb(0, 0, 0)');
-        backgroundGradient.addColorStop(1, 'rgb(255, 255, 255)');
-        canvasCtx.fillStyle = backgroundGradient;
-        canvasCtx.fillRect(0, 0, this.canvasNativeEl.width, this.canvasNativeEl.height);
+        if (this.canvasNativeEl) {
+            // Draw background
+            const canvasCtx = this.canvasNativeEl.getContext('2d');
+            const backgroundGradient = canvasCtx.createLinearGradient(0, 0, this.canvasNativeEl.width, this.canvasNativeEl.height);
+            backgroundGradient.addColorStop(0, 'rgb(61, 255, 112)');
+            backgroundGradient.addColorStop(1, 'rgb(0, 249, 65)');
+            canvasCtx.fillStyle = backgroundGradient;
+            canvasCtx.fillRect(0, 0, this.canvasNativeEl.width, this.canvasNativeEl.height);
 
 
-        switch (this.gameState) {
-            case GameState.Menu: {
-                break;
-            }
-            case GameState.Playing: {
-                break;
-            }
-            case GameState.Paused: {
-                break;
-            }
-            case GameState.Ended: {
-                break;
+            switch (this.gameState) {
+                case GameState.Menu: {
+                    break;
+                }
+                case GameState.Playing: {
+                    break;
+                }
+                case GameState.Paused: {
+                    break;
+                }
+                case GameState.Ended: {
+                    break;
+                }
             }
         }
     }
