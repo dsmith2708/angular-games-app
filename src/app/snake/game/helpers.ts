@@ -1,6 +1,6 @@
 // Enum for snake directions
 export enum Direction {
-    Up,
+    Up = 1,
     Down,
     Left,
     Right,
@@ -12,4 +12,9 @@ export enum GameState {
     Playing,
     Paused,
     Ended
+}
+
+// Properties for snake blocks
+export class SnakeBlockProps {
+    static readonly targetDimensions = 30;
 }
