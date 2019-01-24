@@ -1,5 +1,6 @@
 import { PlayerSnake } from './player-snake';
 import { GameState, SnakeBlockProps, Direction } from './helpers';
+import { FoodPlacer } from './food-placer';
 
 export class SnakeGame {
 
@@ -21,9 +22,11 @@ export class SnakeGame {
         this.screenWidthBlocks = Math.floor(this.canvasNativeEl.width / SnakeBlockProps.targetDimensions);
         this.screenHeightBlocks = Math.floor(this.canvasNativeEl.height / SnakeBlockProps.targetDimensions);
 
-        this.playerSnake = PlayerSnake.getPlayerSnake();
+        this.playerSnake = PlayerSnake.getPlayerSnake(this.screenWidthBlocks, this.screenHeightBlocks);
 
         this.playerSnake.setInitialPoint(Math.floor(this.screenWidthBlocks / 2), Math.floor(this.screenHeightBlocks / 2));
+
+        FoodPlacer.placeFood(this.screenWidthBlocks, this.screenHeightBlocks, this.playerSnake.getSnakeBlocks());
 
         this.startUpdate();
         this.startRender();
@@ -80,6 +83,7 @@ export class SnakeGame {
     private render() {
 
         if (this.canvasNativeEl) {
+            // Get Canvas context
             const canvasCtx = this.canvasNativeEl.getContext('2d');
 
             // Clear screen
@@ -102,9 +106,21 @@ export class SnakeGame {
                     canvasCtx.fillStyle = '#000000';
                     this.playerSnake.getSnakeBlocks().forEach(block => {
                         canvasCtx.fillRect(((block.x * SnakeBlockProps.targetDimensions) - SnakeBlockProps.targetDimensions),
-                        (block.y * SnakeBlockProps.targetDimensions) - SnakeBlockProps.targetDimensions,
-                        SnakeBlockProps.targetDimensions, SnakeBlockProps.targetDimensions );
+                            (block.y * SnakeBlockProps.targetDimensions) - SnakeBlockProps.targetDimensions,
+                            SnakeBlockProps.targetDimensions, SnakeBlockProps.targetDimensions);
                     });
+
+                    // Draw Food
+                    const food = FoodPlacer.getCurrentFoodPlacement();
+                    canvasCtx.beginPath();
+                    canvasCtx.arc((food.x * SnakeBlockProps.targetDimensions) - (SnakeBlockProps.targetDimensions / 2),
+                        (food.y * SnakeBlockProps.targetDimensions) - (SnakeBlockProps.targetDimensions / 2),
+                        SnakeBlockProps.targetDimensions / 2, 0, 2 * Math.PI, false);
+                    canvasCtx.fillStyle = 'green';
+                    canvasCtx.fill();
+                    canvasCtx.lineWidth = 5;
+                    canvasCtx.strokeStyle = '#003300';
+                    canvasCtx.stroke();
                     break;
                 }
                 case GameState.Paused: {
