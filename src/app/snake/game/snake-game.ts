@@ -69,11 +69,15 @@ export class SnakeGame {
     }
 
     private startUpdate() {
-        window.setInterval(this.update.bind(this), 1000);
+        window.setInterval(this.update.bind(this), 100);
     }
 
     private update() {
-        this.playerSnake.update();
+        if (this.playerSnake.getSnakeAlive()) {
+            this.playerSnake.update();
+        } else {
+            this.gameState = GameState.Ended;
+        }
     }
 
     private startRender() {
@@ -127,6 +131,10 @@ export class SnakeGame {
                     break;
                 }
                 case GameState.Ended: {
+                    canvasCtx.fillStyle = '#000000';
+                    canvasCtx.textAlign = 'center';
+                    canvasCtx.font = '25vh ariel';
+                    canvasCtx.fillText('You Died', this.canvasNativeEl.width / 2, this.canvasNativeEl.height / 2);
                     break;
                 }
             }

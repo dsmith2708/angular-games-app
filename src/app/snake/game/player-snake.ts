@@ -23,6 +23,9 @@ export class PlayerSnake {
     // Direction snake is travelling in
     snakeDirection = Direction.Up;
 
+    // Is Player Snake Alive
+    private alive = true;
+
     private constructor(public screenWidthBlocks: number, public screenHeightBlocks: number) { }
 
     // Returns only instance of PlayerSnake, creates new if doesn't exist
@@ -36,8 +39,12 @@ export class PlayerSnake {
         return this.playerInstance;
     }
 
-    public getSnakeBlocks() {
+    public getSnakeBlocks(): SnakeBlock[] {
         return this.snakeBlocks;
+    }
+
+    public getSnakeAlive(): boolean {
+        return this.alive;
     }
 
     public setSnakeDir(direction: Direction) {
@@ -56,35 +63,51 @@ export class PlayerSnake {
         let attemptNewHeadBlock: SnakeBlock;
         switch (this.snakeDirection) {
             case Direction.Up: {
-                attemptNewHeadBlock = {x: currentHeadBlock.x, y: currentHeadBlock.y - 1};
+                attemptNewHeadBlock = { x: currentHeadBlock.x, y: currentHeadBlock.y - 1 };
                 break;
             }
             case Direction.Down: {
-                attemptNewHeadBlock = {x: currentHeadBlock.x, y: currentHeadBlock.y + 1};
+                attemptNewHeadBlock = { x: currentHeadBlock.x, y: currentHeadBlock.y + 1 };
                 break;
             }
             case Direction.Left: {
-                attemptNewHeadBlock = {x: currentHeadBlock.x - 1, y: currentHeadBlock.y};
+                attemptNewHeadBlock = { x: currentHeadBlock.x - 1, y: currentHeadBlock.y };
                 break;
             }
             case Direction.Right: {
-                attemptNewHeadBlock = {x: currentHeadBlock.x + 1, y: currentHeadBlock.y};
+                attemptNewHeadBlock = { x: currentHeadBlock.x + 1, y: currentHeadBlock.y };
                 break;
             }
         }
 
-        this.snakeBlocks.push(attemptNewHeadBlock);
+        // Check if snake has hit itself
+        this.snakeBlocks.forEach(block => {
+            if (block.x === attemptNewHeadBlock.x && block.y === attemptNewHeadBlock.y) {
+                this.alive = false;
+            }
+        });
 
-        if (FoodPlacer.checkLocationForFood(attemptNewHeadBlock)) {
-            this.lengthenSnake = true;
-            FoodPlacer.placeFood(this.screenWidthBlocks, this.screenHeightBlocks, this.getSnakeBlocks());
+        // Check if snake has gone out of bounds
+        if (attemptNewHeadBlock.x < 1 || attemptNewHeadBlock.y < 1 || attemptNewHeadBlock.x > this.screenWidthBlocks ||
+            attemptNewHeadBlock.y > this.screenHeightBlocks) {
+            this.alive = false;
         }
 
-        if (!this.lengthenSnake) {
-            this.snakeBlocks.shift();
-        } else if (this.lengthenSnake) {
-            this.lengthenSnake = !this.lengthenSnake;
+        if (this.alive) {
+            this.snakeBlocks.push(attemptNewHeadBlock);
+
+            if (FoodPlacer.checkLocationForFood(attemptNewHeadBlock)) {
+                this.lengthenSnake = true;
+                FoodPlacer.placeFood(this.screenWidthBlocks, this.screenHeightBlocks, this.getSnakeBlocks());
+            }
+
+            if (!this.lengthenSnake) {
+                this.snakeBlocks.shift();
+            } else if (this.lengthenSnake) {
+                this.lengthenSnake = !this.lengthenSnake;
+            }
         }
+
 
     }
 }

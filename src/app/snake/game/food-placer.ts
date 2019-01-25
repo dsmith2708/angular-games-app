@@ -10,9 +10,12 @@ export class FoodPlacer {
 
     public static placeFood(maxWidth: number, maxHeight: number, playerSnakeBlocks: SnakeBlock[]) {
 
-        let foodPlaced = false;
+        let notFoodPlaced = true;
 
-        while (!foodPlaced) {
+        while (notFoodPlaced) {
+
+            notFoodPlaced = false;
+
             const xFoodCoord = Math.floor(Math.random() * maxWidth) + 1;
             const yFoodCoord = Math.floor(Math.random() * maxHeight) + 1;
 
@@ -21,12 +24,18 @@ export class FoodPlacer {
                 y: yFoodCoord
             };
 
-            if (!playerSnakeBlocks.includes(attemptFoodPlacement)) {
+            playerSnakeBlocks.forEach(item => {
+                if (item.x === attemptFoodPlacement.x && item.y === attemptFoodPlacement.y) {
+                    notFoodPlaced = true;
+                }
+            });
+
+            if (!notFoodPlaced) {
                 this.currentFoodPlacement = attemptFoodPlacement;
-                foodPlaced = true;
             }
 
         }
+
 
     }
 
